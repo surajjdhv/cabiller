@@ -1,0 +1,7 @@
+{
+  "name": "cabiller",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
