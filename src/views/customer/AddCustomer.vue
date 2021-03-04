@@ -40,7 +40,6 @@ import {
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import toast from '@/shared/toast';
 
 export default {
     components: {
@@ -69,8 +68,6 @@ export default {
                 name: customer.value.name,
                 mobile: customer.value.mobile
             });
-            
-            toast("Customer added successfully.");
 
             router.push('/customer');
         }

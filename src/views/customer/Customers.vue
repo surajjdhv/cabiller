@@ -6,16 +6,20 @@
             </ion-button>
         </template>
         <ion-list>
-            <ion-item-sliding>
-                <ion-item v-for="customer in customers" v-bind:key="customer.mobile">
+            <ion-item-sliding v-for="customer in customers" v-bind:key="customer.id">
+                <ion-item>
                     <ion-avatar slot="start">
                         <img :src="'https://ui-avatars.com/api/?name=' + encodeURI(customer.name)" :alt="customer.name">
                     </ion-avatar>
                     <ion-label>{{ customer.name }}</ion-label>
                 </ion-item>
                 <ion-item-options side="end">
-                    <ion-item-option color="tertiary" expandable>
-                        Archive
+                    <ion-item-option
+                        color="danger"
+                        expandable
+                        @click="deleteCustomer(customer.id)"
+                    >
+                        <ion-icon slot="icon-only" :icon="trash"></ion-icon>
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
@@ -35,7 +39,7 @@ import {
     IonItemOptions,
     IonItemOption
 } from "@ionic/vue";
-import { add } from "ionicons/icons";
+import { add, trash } from "ionicons/icons";
 import { useStore } from 'vuex';
 import { computed } from 'vue';
 
@@ -54,8 +58,8 @@ export default {
     setup () {
         const store = useStore();
         const customers = computed(() => store.getters['customer/getCustomers']);
-        
-        return { add, customers };
+        const deleteCustomer = (customerId) => store.dispatch('customer/deleteCustomer', customerId);
+        return { add, trash, customers, deleteCustomer };
     }
 }
 </script>
