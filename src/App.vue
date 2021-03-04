@@ -26,6 +26,9 @@ import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { homeOutline, homeSharp, personSharp, personOutline } from 'ionicons/icons';
 
+/* Mixins */
+import toast from './shared/toast.js';
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -74,7 +77,8 @@ export default defineComponent({
       personOutline,
       isSelected: (url) => url === route.path ? 'selected' : ''
     }
-  }
+  },
+  mixins: [toast]
 });
 </script>
 

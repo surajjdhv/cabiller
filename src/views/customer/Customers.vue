@@ -6,12 +6,19 @@
             </ion-button>
         </template>
         <ion-list>
-            <ion-item v-for="customer in customers" v-bind:key="customer.mobile">
-                <ion-avatar slot="start">
-                    <img :src="'https://ui-avatars.com/api/?name=' + customer.name" :alt="customer.name">
-                </ion-avatar>
-                <ion-label>{{ customer.name }}</ion-label>
-            </ion-item>
+            <ion-item-sliding>
+                <ion-item v-for="customer in customers" v-bind:key="customer.mobile">
+                    <ion-avatar slot="start">
+                        <img :src="'https://ui-avatars.com/api/?name=' + encodeURI(customer.name)" :alt="customer.name">
+                    </ion-avatar>
+                    <ion-label>{{ customer.name }}</ion-label>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option color="tertiary" expandable>
+                        Archive
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
         </ion-list>
     </base-layout>
 </template>
@@ -23,7 +30,10 @@ import {
     IonList,
     IonItem,
     IonAvatar,
-    IonLabel
+    IonLabel,
+    IonItemSliding,
+    IonItemOptions,
+    IonItemOption
 } from "@ionic/vue";
 import { add } from "ionicons/icons";
 import { useStore } from 'vuex';
@@ -36,7 +46,10 @@ export default {
         IonList,
         IonItem,
         IonAvatar,
-        IonLabel
+        IonLabel,
+        IonItemSliding,
+        IonItemOptions,
+        IonItemOption
     },
     setup () {
         const store = useStore();

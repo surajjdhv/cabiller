@@ -10,22 +10,20 @@
                     <ion-label position="stacked">Mobile Number</ion-label>
                     <ion-input v-model="customer.mobile"></ion-input>
                 </ion-item>
-                <!-- <ion-item> -->
-                    <ion-button
-                        color="primary"
-                        expand="block"
-                        type="submit"
-                    >
-                        Save
-                    </ion-button>
-                    <ion-button
-                        color="medium"
-                        expand="block"
-                        @click="resetFields"
-                    >
-                        Reset
-                    </ion-button>
-                <!-- </ion-item> -->
+                <ion-button
+                    color="primary"
+                    expand="block"
+                    type="submit"
+                >
+                    Save
+                </ion-button>
+                <ion-button
+                    color="medium"
+                    expand="block"
+                    @click="resetFields"
+                >
+                    Reset
+                </ion-button>
             </ion-list>
         </form>
     </base-layout>
@@ -42,6 +40,7 @@ import {
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import toast from '@/shared/toast';
 
 export default {
     components: {
@@ -70,6 +69,8 @@ export default {
                 name: customer.value.name,
                 mobile: customer.value.mobile
             });
+            
+            toast("Customer added successfully.");
 
             router.push('/customer');
         }
