@@ -26,10 +26,44 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+/* SQLite */
+import { useSQLite } from 'vue-sqlite-hook/dist';
+
+const {
+  echo,
+  getPlatform,
+  createConnection,
+  closeConnection,
+  retrieveConnection,
+  retrieveAllConnections,
+  closeAllConnections,
+  addUpgradeStatement,
+  importFromJson,
+  isJsonValid,
+  copyFromAssets,
+  isAvailable
+} = useSQLite();
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(store);
+
+// Singleton SQLite Hook
+app.config.globalProperties.$sqlite = {
+  echo: echo,
+  getPlatform: getPlatform,
+  createConnection: createConnection,
+  closeConnection: closeConnection,
+  retrieveConnection: retrieveConnection,
+  retrieveAllConnections: retrieveAllConnections,
+  closeAllConnections: closeAllConnections,
+  addUpgradeStatement: addUpgradeStatement,
+  importFromJson: importFromJson,
+  isJsonValid: isJsonValid,
+  copyFromAssets: copyFromAssets,
+  isAvailable:isAvailable
+};
 
 app.component('base-layout', BaseLayout);
   
