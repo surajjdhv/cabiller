@@ -22,7 +22,7 @@
 
 <script>
 import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { homeOutline, homeSharp, personSharp, personOutline } from 'ionicons/icons';
 
@@ -67,6 +67,31 @@ export default defineComponent({
     }
     
     const route = useRoute();
+
+    const app = getCurrentInstance();
+    const sqlite = app?.appContext.config.globalProperties.$sqlite;
+    console.log(sqlite);
+
+    onMounted(async () => {
+      try {
+        let res = await sqlite.echo('Hello');
+        
+        if (res.value != 'Hello') {
+          toast('Unable to connect to database!');
+          return false;
+        }
+
+        // sqlite.createConnection("cabiller", false, "no-encryption", 1)
+        const db = await sqlite.retrieveConnection("cabiller");
+        toast(JSON.stringify(db));
+        if (db == "") {
+          toast('Nothing');
+        }
+      } catch (e) {
+        toast(e.message);
+        return false;
+      }
+    });
     
     return { 
       selectedIndex,

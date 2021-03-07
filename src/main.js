@@ -62,7 +62,7 @@ app.config.globalProperties.$sqlite = {
   importFromJson: importFromJson,
   isJsonValid: isJsonValid,
   copyFromAssets: copyFromAssets,
-  isAvailable:isAvailable
+  isAvailable: isAvailable
 };
 
 app.component('base-layout', BaseLayout);
