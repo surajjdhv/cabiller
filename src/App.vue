@@ -22,9 +22,20 @@
 
 <script>
 import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
-import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue';
+import {
+  defineComponent,
+  getCurrentInstance,
+  onMounted,
+  ref
+} from 'vue';
 import { useRoute } from 'vue-router';
+// import { useStore } from 'vuex';
 import { homeOutline, homeSharp, personSharp, personOutline } from 'ionicons/icons';
+import {
+  echoDB,
+  checkExistingConnection,
+  createDB
+} from './utils/db.js';
 
 /* Mixins */
 import toast from './shared/toast.js';
@@ -67,30 +78,23 @@ export default defineComponent({
     }
     
     const route = useRoute();
+    // const store = useStore();
 
     const app = getCurrentInstance();
     const sqlite = app?.appContext.config.globalProperties.$sqlite;
-    console.log(sqlite);
 
     onMounted(async () => {
-      try {
-        let res = await sqlite.echo('Hello');
-        
-        if (res.value != 'Hello') {
-          toast('Unable to connect to database!');
-          return false;
-        }
-
-        // sqlite.createConnection("cabiller", false, "no-encryption", 1)
-        const db = await sqlite.retrieveConnection("cabiller");
-        toast(JSON.stringify(db));
-        if (db == "") {
-          toast('Nothing');
-        }
-      } catch (e) {
-        toast(e.message);
+      if (! await echoDB(sqlite)) {
+        toast('Unable to echo to database service!');
         return false;
       }
+
+      if (! await checkExistingConnection(sqlite)) {
+        const a = await createDB(sqlite);
+        toast(JSON.parse(a));
+      }
+
+      toast('aa');
     });
     
     return { 
